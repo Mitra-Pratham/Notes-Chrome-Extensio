@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Notes for TeamConnect",
+    "name": "Omnipresent Notes",
     "version": "1.0",
     "action": {
       },
@@ -8,11 +8,18 @@
         {
             "matches": ["<all_urls>"],
             "run_at": "document_idle",
-          "js": ["jquery.min.js", "notes.js"]
+            "css":["notes.css"],
+          "js": ["jquery.min.js","notes.js", "main.js"]
           
         }
       ],
       "permissions": [
         "storage"
-      ]
+      ],
+    "web_accessible_resources": [
+      {
+        "resources": [ "minimize.svg","maximize.svg" ],
+        "matches": [ "<all_urls>"]
+      }
+    ]
   }
