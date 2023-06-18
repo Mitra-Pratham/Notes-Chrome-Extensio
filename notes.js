@@ -39,14 +39,15 @@ const init = function () {
         <div class="notes-header">
             <div id="notes-title" for="notes-area">Notes</div>
             <div style="display:flex; align-items:center;">
-                <button class="btn-new min-box">${minimizeIcon}</button>
-                <button class="btn-new max-box">${maximizeIcon}</button>
-                <button class="btn-new close-box">${closeIcon}</button>
+                <button class="btn-notes-ext min-box">${minimizeIcon}</button>
+                <button class="btn-notes-ext max-box">${maximizeIcon}</button>
+                <button class="btn-notes-ext close-box">${closeIcon}</button>
             </div>
         </div>
         <div class="notes-form" style="display:none">
             <div id="notes-form-container" style="display:flex; flex-direction:column">
-                <div id="rtf-buttons" style="display:flex; align-items:center; margin-bottom:8px; flex-wrap:wrap;">
+                <div id="formatter-row">
+                <div id="rtf-buttons">
                     <select name="headings-box" id="headings-box">
                         <option value="h1">Heading 1</option>
                         <option value="h2">Heading 2</option>
@@ -56,8 +57,10 @@ const init = function () {
                         <option value="h6">Heading 6</option>
                         <option value="p">Paragraph</option>
                     </select>
-                    <button class="btn-new ol-box">${olIcon}</button>
-                    <button class="btn-new ul-box">${ulIcon}</button>
+                    <button class="btn-notes-ext ol-box">${olIcon}</button>
+                    <button class="btn-notes-ext ul-box">${ulIcon}</button>
+                </div>
+                <div id="saved-box-message" class="toaster-message">Your notes have been saved</div>
                 </div>
                 <div draggable="true" class="notes-form-container-top"></div>
                 <div draggable="true" class="notes-form-container-left"></div>
@@ -174,6 +177,10 @@ const init = function () {
         chrome.storage.local.set({ textArea: textArea }).then(() => {
             console.log("Value is set");
         });
+        $('#saved-box-message').show();
+        setTimeout(() => {
+            $('#saved-box-message').hide();
+        }, 3000);
     }
 
     function saveHeight(height) {
