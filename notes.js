@@ -39,9 +39,9 @@ const init = function () {
         <div class="notes-header">
             <div id="notes-title" for="notes-area">Notes</div>
             <div style="display:flex; align-items:center;">
-                <button class="btn-notes-ext min-box">${minimizeIcon}</button>
-                <button class="btn-notes-ext max-box">${maximizeIcon}</button>
-                <button class="btn-notes-ext close-box">${closeIcon}</button>
+                <button class="btn-notes-ext min-box" title="Minimize">${minimizeIcon}</button>
+                <button class="btn-notes-ext max-box" title="Maximize">${maximizeIcon}</button>
+                <button class="btn-notes-ext close-box" title="Close">${closeIcon}</button>
             </div>
         </div>
         <div class="notes-form" style="display:none">
@@ -57,8 +57,8 @@ const init = function () {
                         <option value="h6">Heading 6</option>
                         <option value="p">Paragraph</option>
                     </select>
-                    <button class="btn-notes-ext ol-box">${olIcon}</button>
-                    <button class="btn-notes-ext ul-box">${ulIcon}</button>
+                    <button class="btn-notes-ext ol-box" title="Ordered List - Ctrl+|">${olIcon}</button>
+                    <button class="btn-notes-ext ul-box" title="Unordered List - Ctrl+]">${ulIcon}</button>
                 </div>
                 <div id="saved-box-message" class="toaster-message">Your notes have been saved</div>
                 </div>
@@ -103,7 +103,7 @@ const init = function () {
     //maximize box
     $('.max-box').on('click', function (e) {
         $(e.target).offsetParent('.notes-header').find('.notes-form').show();
-        getText('text', 'height', 'width');
+        getLocalStore('text', 'height', 'width');
     });
 
     //close box
@@ -114,7 +114,7 @@ const init = function () {
     //ordered list
     $('#headings-box').on('change', function (e) {
         let heading = e.target.value;
-        let headingAppend = `<${heading}>heading ${heading.slice(1,2)}<${heading}>`
+        let headingAppend = `<${heading}>heading ${heading.slice(1, 2)}<${heading}>`
         $('#notes-area').append(headingAppend);
         saveText();
     });
@@ -139,12 +139,33 @@ const init = function () {
 
     //update on focus
     $('#notes-area').focus(function () {
-        getText('text', 'height', 'width');
-    })
+        getLocalStore('text', 'height', 'width');
+    });
 
     //save on focus out
     $('#notes-area').blur(function () {
         saveText();
+    });
+
+    //keypress listener here
+    $('#notes-area').on('keypress', function (event) {
+        // console.log(event.keyCode);
+        // shortcut ctrl+]
+        if (event.ctrlKey && event.keyCode === 29) {
+            //get cursor position
+           let sel = window.getSelection();
+            let ulElement = document.createElement('ul');
+            ulElement.innerHTML = '<li>An item here</li>'
+            sel.getRangeAt(0).insertNode(ulElement);
+        }
+        // shortcut ctrl+\
+         if (event.ctrlKey && event.keyCode === 28) {
+            //get cursor position
+           let sel = window.getSelection();
+            let olElement = document.createElement('ol');
+            olElement.innerHTML = '<li>An item here</li>'
+            sel.getRangeAt(0).insertNode(olElement);
+        }
     })
 
     // $('#height-slider').on('change', function(){
@@ -159,12 +180,14 @@ const init = function () {
     //     saveWidth();
     // });
 
+    //top side height adjuster
     $('.notes-form-container-top').on('dragend', function (event) {
         let changedHeight = (window.innerHeight - event.clientY);
         $('#notes-area').css('height', changedHeight);
         saveHeight(changedHeight);
     });
 
+    //left side width adjuster
     $('.notes-form-container-left').on('dragend', function (event) {
         let changedWidth = (window.innerWidth - event.clientX);
         $('#notes-area').css('width', changedWidth);
@@ -183,19 +206,22 @@ const init = function () {
         }, 3000);
     }
 
+    //save height function
     function saveHeight(height) {
         chrome.storage.local.set({ boxHeight: height }).then(() => {
             console.log("Value is set");
         });
     }
 
+    //save width
     function saveWidth(width) {
         chrome.storage.local.set({ boxWidth: width }).then(() => {
             console.log("Value is set");
         });
     }
 
-    function getText(text, height, width) {
+    //get text, height and widht from the local storage
+    function getLocalStore(text, height, width) {
         chrome.storage.local.get(["textArea", "boxHeight", "boxWidth"]).then((result) => {
             text ? $('#notes-area').html(result.textArea) : '';
             height ? $('#notes-area').height(result.boxHeight) : '';
