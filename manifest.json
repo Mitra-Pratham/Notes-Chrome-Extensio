@@ -9,7 +9,7 @@
             "matches": ["<all_urls>"],
             "run_at": "document_idle",
             "css":["notes.css"],
-          "js": ["jquery.min.js","notes.js", "main.js"]
+          "js": ["jquery.min.js","notes.js"]
           
         }
       ],
