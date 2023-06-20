@@ -217,6 +217,7 @@ const init = function () {
 
     //headings box toggle
     $('.headings-box').click(function () {
+        $('.headings-box').addClass('btn-notes-ext-active');
         $('#headings-box-container').toggle();
     });
 
@@ -227,6 +228,7 @@ const init = function () {
         $('#notes-area').append(headingElement);
         saveText();
         $('#headings-box-container').hide();
+        $('.headings-box').removeClass('btn-notes-ext-active');
     });
 
 
@@ -246,6 +248,7 @@ const init = function () {
 
     //colors box toggle
     $('.colors-box').click(function () {
+        $('.colors-box').addClass('btn-notes-ext-active');
         $('#colors-box-container').toggle();
     });
 
@@ -260,11 +263,13 @@ const init = function () {
          sel.getRangeAt(0).insertNode(coloredText);
         saveText();
         $('#colors-box-container').hide();
+        $('.colors-box').removeClass('btn-notes-ext-active');
 
     });
 
     //background box toggle
     $('.background-box').click(function () {
+        $('.background-box').addClass('btn-notes-ext-active');
         $('#background-box-container').toggle();
     });
 
@@ -279,6 +284,7 @@ const init = function () {
         sel.getRangeAt(0).insertNode(backgroundText);
        saveText();
        $('#background-box-container').hide();
+       $('.background-box').removeClass('btn-notes-ext-active');
 
    });
 

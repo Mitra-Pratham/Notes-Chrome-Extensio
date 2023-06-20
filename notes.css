@@ -28,7 +28,7 @@
   margin: 0;
 }
 
-.btn-notes-ext:hover {
+.btn-notes-ext:hover, .btn-notes-ext-active {
   color: #0d6efd;
   border: none;
   background-color: rgba(13, 110, 253, 0.2);
@@ -134,7 +134,7 @@
   text-decoration: underline;
 }
 
-#notes-area h1,h2,h3,h4,h5,p{
+#notes-area h1,#notes-area h2,#notes-area h3,#notes-area h4,#notes-area h5,#notes-area p{
   display: block !important;
   color: #000 !important;
   font-weight: normal !important;
