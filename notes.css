@@ -1,5 +1,3 @@
-@import url(fontawesome.min.css);
-
 #notes-main {
   font-family: sans-serif;
   position: fixed;
@@ -134,6 +132,70 @@
 #notes-area a{
   color:#0000EE;
   text-decoration: underline;
+}
+
+#notes-area h1,h2,h3,h4,h5,p{
+  display: block !important;
+  color: #000 !important;
+  font-weight: normal !important;
+  padding: 0 !important;
+}
+
+
+#notes-area h1{
+  font-size: 2em !important;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+#notes-area h2{
+  font-size: 1.5em !important;
+  font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+#notes-area h3{
+  font-size: 1.17em !important;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+#notes-area h4 {
+  font-size: 1em !important;
+  margin-block-start: 1.33em;
+  margin-block-end: 1.33em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+#notes-area h5 {
+  font-size: 0.83em !important;
+  margin-block-start: 1.67em;
+  margin-block-end: 1.67em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+#notes-area h6 {
+  font-size: 0.67em !important;
+  margin-block-end: 2.33em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+#notes-area p{
+  font-size: 1em !important;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
 }
 
 #notes-area:focus {
