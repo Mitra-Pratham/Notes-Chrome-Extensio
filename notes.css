@@ -250,6 +250,12 @@
   width:250px;
 }
 
+#show-sections-box-container{
+  top: 30px;
+  left: 140px;
+  width:180px;
+}
+
 .shortcuts-box:hover + #shortcuts-box-container {
   display: block;
 }
@@ -283,3 +289,10 @@ textarea:focus{
     outline: 1px solid rgba(13, 110, 253, 1);
     box-shadow: 0 0 16px rgba(13, 110, 253, 0.2);
 } */
+
+.sections-area{
+  padding: 16px;
+  border: 1px solid #aaa;
+  border-radius: 6px ;
+  margin: 8px;
+}
