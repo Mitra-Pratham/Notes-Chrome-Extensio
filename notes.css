@@ -256,6 +256,15 @@
   width:180px;
 }
 
+#show-sections-notification{
+  position: absolute;
+  display: none;
+  color: orange;
+  top: 0px;
+  left: 216px;
+  font-size: 12px;
+}
+
 .shortcuts-box:hover + #shortcuts-box-container {
   display: block;
 }

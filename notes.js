@@ -25,7 +25,7 @@ const shortcutKeys = [
     },
     {
         name: `Ordered List and Sub Bullets`,
-        keys: `Ctrl + \\`,
+        keys: `Tab`,
     },
     {
         name: `Convert text to links`,
@@ -165,6 +165,7 @@ const init = function () {
                         </div>
                     <button class="btn-notes-ext add-sections-box" title="Add Sections">${addSectionsIcon}</button>
                     <button class="btn-notes-ext show-sections-box" title="Show/Hide Sections">${showSectionsIcon}</button>
+                    <div id="show-sections-notification">⬤</div>
                         <div id="show-sections-box-container" class="box-ui-layout">
                         </div>
                     <button class="btn-notes-ext shortcuts-box" title="Shortcuts">${shortcutIcon}</button>
@@ -215,7 +216,7 @@ const init = function () {
             let tempText = document.getElementsByClassName('sections-area')[i].innerText;
             let tempDisplay = document.getElementsByClassName('sections-area')[i].style.display;
             let checkSection = `<div>
-                        <input class="${tempID}" name="${tempID}" type="checkbox" ${tempDisplay === 'none' ? '' : 'checked'}>
+                        <input class="${tempID} sections-checkbox" name="${tempID}" type="checkbox" ${tempDisplay === 'none' ? '' : 'checked'}>
                         <label for="${tempID}"> ${tempText.substring(0, 20)}...</label>
             </div>`
             sectionsList.push(checkSection);
@@ -229,8 +230,14 @@ const init = function () {
                 saveText();
                 $('.show-sections-box').toggleClass('btn-notes-ext-active');
                 $('#show-sections-box-container').toggle();
+                showSectionsNotication();
             });
         }
+        showSectionsNotication();
+    }
+
+    function showSectionsNotication(){
+        $('#show-sections-box-container .sections-checkbox:checked').length == $('#show-sections-box-container .sections-checkbox').length  ? $('#show-sections-notification').hide() : $('#show-sections-notification').show();
     }
 
     //minimize box
