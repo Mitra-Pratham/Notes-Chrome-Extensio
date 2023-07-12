@@ -360,6 +360,7 @@ const init = function () {
 
     //keypress listener here
     $('#notes-area').on('keydown', function (event) {
+        console.log(event.keyCode);
         // shortcut tab
         if (event.keyCode === 9) {
             event.preventDefault();
@@ -370,7 +371,7 @@ const init = function () {
             sel.getRangeAt(0).insertNode(ulElement);
         }
         // shortcut ctrl+\ - ordered lists
-        if (event.ctrlKey && event.keyCode === 28) {
+        else if (event.ctrlKey && event.keyCode === 28) {
             //get cursor position
             let sel = window.getSelection();
             let olElement = document.createElement('ol');
@@ -378,7 +379,9 @@ const init = function () {
             sel.getRangeAt(0).insertNode(olElement);
         }
         // shortcut ctrl+shift+k - adding links
-        if (event.ctrlKey && event.keyCode === 11) {
+        else if (event.keyCode === 75) {
+            event.preventDefault();
+            console.log('fired');
             //get cursor position
             let sel = window.getSelection();
             let anchorTag = document.createElement('span');
