@@ -29,7 +29,7 @@ const shortcutKeys = [
     },
     {
         name: `Convert text to links`,
-        keys: `Ctrl + Shift + K`,
+        keys: `Ctrl + K`,
     },
 ]
 
@@ -379,7 +379,7 @@ const init = function () {
             sel.getRangeAt(0).insertNode(olElement);
         }
         // shortcut ctrl+shift+k - adding links
-        else if (event.keyCode === 75) {
+        else if (event.ctrlKey && event.keyCode === 75) {
             event.preventDefault();
             console.log('fired');
             //get cursor position
