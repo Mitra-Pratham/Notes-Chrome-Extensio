@@ -57,6 +57,7 @@ const createNotesBody = function(){
                         <button id="pageActions" class="btn-notes-ext" title="Page Actions">${pageActionsIcon}</button>
                         <div id="page-actions-box-container" class="box-ui-layout">
                         </div>
+                        <button id="importPage" class="btn-notes-ext" title="Import Page">${importIcon}</button>
                         <button class="btn-notes-ext shortcuts-box" title="Shortcuts">${shortcutIcon}</button>
                         <div id="shortcuts-box-container" class="box-ui-layout">
                         ${createShortcuts()}

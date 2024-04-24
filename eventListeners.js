@@ -232,8 +232,20 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
         createPage();
     });
 
+    //delete page function
     $('#page-actions-box-container').on('click', '.delete-page', function (e) {
         deletePage($(this).attr('value'));
+        $('#page-actions-box-container').hide();
+
+    });
+
+    //import page function
+    $('#rtf-buttons').on('click', '#importPage', async function () {
+        let fileHandle;
+        [fileHandle] = await window.showOpenFilePicker();
+        const file = await fileHandle.getFile();
+        const contents = await file.text();
+        createPage(contents);
     });
 
     async function getNewFileHandle() {
@@ -269,7 +281,8 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
             fileContents = Object.values(result)[0];
         }).then(() => {
             getNewFileHandle().then((result) => {
-                writeFile(result, fileContents)
+                writeFile(result, fileContents);
+                $('#page-actions-box-container').hide();
             })
         })
 

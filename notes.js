@@ -56,7 +56,7 @@ const init = function () {
         }
     }
 
-    function createPage() {
+    function createPage(text) {
         let tempName = prompt('Enter page name',`Page ${$('.btn-pages').length+1}`);
         if (tempName != null) {
             tempID = `textArea${Math.round(Math.random() * 90000000)}`
@@ -69,7 +69,7 @@ const init = function () {
                 saveCreatePage(newArray);
                 createPagesTabs(newArray);
                 createPageDeleteList(newArray);
-                chrome.storage.local.set({ [tempID]: 'Write notes here' }).then(() => {
+                chrome.storage.local.set({ [tempID]: text ? text: 'Write notes here' }).then(() => {
                     console.log("Value is set");
                 });
             });
@@ -127,7 +127,7 @@ const init = function () {
     function saveText(textAreaID) {
         let textArea = $('#notes-area').html();
         chrome.storage.local.set({ [textAreaID]: textArea }).then(() => {
-            console.log("Value is set");
+            // console.log("Value is set");
         });
         $('#saved-box-message').show();
         setTimeout(() => {
@@ -147,7 +147,7 @@ const init = function () {
         chrome.storage.local.set({ boxWidth: width }).then(() => {
             console.log("Value is set");
         });
-        chrome.storage.local.get(console.log);
+        // chrome.storage.local.get(console.log);
     }
 
     //save page
