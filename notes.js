@@ -15,8 +15,8 @@ const init = function () {
         $('#notes-area').height(result.boxHeight);
         $('#notes-area, .pages-container').width(result.boxWidth);
         result.pagesArray === undefined ? saveCreatePage(pagesArray) : '';
-        createPagesTabs(result.pagesArray);
-        createPageDeleteList(result.pagesArray);
+        createPagesTabs(result.pagesArray === undefined ? pagesArray : result.pagesArray);
+        createPageDeleteList(result.pagesArray === undefined ? pagesArray : result.pagesArray);
         
         // $('#height-slider').val(result.boxHeight);
         // $('#width-slider').val(result.boxWidth);
