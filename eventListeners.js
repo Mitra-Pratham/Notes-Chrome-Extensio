@@ -238,7 +238,7 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
 
     async function getNewFileHandle() {
         const options = {
-            suggestedName: 'New Page.txt',
+            suggestedName: 'New Page.html',
             startIn: 'downloads',
             types: [
                 {

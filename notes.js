@@ -6,7 +6,7 @@ const init = function () {
     //get locally stored items
     chrome.storage.local.get(["textAreaDefault", "boxHeight", "boxWidth", "pagesArray", "textArea"]).then((result) => {
         if(result.textArea !== undefined){
-            chrome.storage.local.set({textAreaDefault:textArea}).then(() => {
+            chrome.storage.local.set({textAreaDefault:result.textArea}).then(() => {
                 console.log('migrated text area');
                 chrome.storage.local.remove('textArea');
             })
