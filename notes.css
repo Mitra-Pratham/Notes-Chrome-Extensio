@@ -256,6 +256,12 @@
   width:180px;
 }
 
+#page-actions-box-container{
+  top: 30px;
+  left: 140px;
+  width:180px;
+}
+
 #show-sections-notification{
   position: absolute;
   display: none;
@@ -304,4 +310,35 @@ textarea:focus{
   border: 1px solid #aaa;
   border-radius: 6px ;
   margin: 8px;
+}
+
+.pages-container{
+  margin: 0 0 1em 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.active-area{
+  font-weight: bold;
+  background-color: rgba(13, 110, 253, 0.2);
+  border-radius: 4px;
+}
+
+.page-actions-item{
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ font-size: .8rem;
+ border-bottom: 1px solid #eee;
+ padding: .25em 0;
+}
+
+.page-actions-item:last-child{
+  border-bottom: 0;
+}
+
+.page-actions-sub{
+  display: flex;
+  gap: 2px;
 }
