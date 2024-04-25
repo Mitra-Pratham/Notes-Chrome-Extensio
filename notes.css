@@ -20,6 +20,7 @@
   cursor: pointer;
   font-size: 12px;
   color: #0d6efd;
+  background-color: transparent;
   border: none;
   transition: 0.3s ease;
   box-shadow: none;
@@ -58,6 +59,17 @@
 
 .btn-pages, .min-box, .max-box, .close-box{
   background-color: transparent;
+}
+
+.btn-sections-toggle{
+  font-size: .8em;
+  text-align: left;
+  margin-bottom: .5em;
+}
+
+.btn-sections-toggle-hidden{
+  color: #757575;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .notes-header {
@@ -120,6 +132,12 @@
     width: auto !important;
     background-color: white !important;
     color: #000 !important;
+}
+
+#notes-area-parent {
+  display: grid;
+  grid-template-columns: 10% 90%;
+  gap: 6px
 }
 
 #notes-area {

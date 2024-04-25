@@ -9,8 +9,8 @@ const createNotesBody = function(){
     function createButtons(array, color) {
         return (
             array.map((el) => {
-                return `<button class="btn-notes-ext" value="${el.value}" title="${el.name}">
-                    ${color ? colorAdd(el.value) : ''} ${color ? '' : el.name}</button>`
+                return `<button class="btn-notes-ext" value="${el.value}">
+                    ${color ? colorAdd(el.value) : ''} ${color ? '' : el.name}<span class="btn-title">${el.name}</span></button>`
             }).join(""));
     
         function colorAdd(value) {
@@ -25,9 +25,9 @@ const createNotesBody = function(){
             <div class="notes-header">
                 <div id="notes-title" for="notes-area">Notes</div>
                 <div class="notes-header-buttons">
-                    <button class="btn-notes-ext min-box" title="Minimize">${minimizeIcon}</button>
-                    <button class="btn-notes-ext max-box" title="Maximize">${maximizeIcon}</button>
-                    <button class="btn-notes-ext close-box" title="Close">${closeIcon}</button>
+                    <button class="btn-notes-ext min-box">${minimizeIcon} <span class="btn-title">Minimize</span></button>
+                    <button class="btn-notes-ext max-box">${maximizeIcon} <span class="btn-title">Maximize</span></button>
+                    <button class="btn-notes-ext close-box">${closeIcon} <span class="btn-title">Close</span></button>
                 </div>
             </div>
             <div class="notes-form" style="display:none">
@@ -49,10 +49,6 @@ const createNotesBody = function(){
                             ${createButtons(colorsArray, true)}
                             </div>
                         <button class="btn-notes-ext add-sections-box">${addSectionsIcon} <span class="btn-title">Add Section</span></button>
-                        <button class="btn-notes-ext show-sections-box">${showSectionsIcon} <span class="btn-title">Show/Hide Section</span></button>
-                        <div id="show-sections-notification">⬤</div>
-                            <div id="show-sections-box-container" class="box-ui-layout">
-                            </div>
                             <button id="createPage" class="btn-notes-ext">${createPagesIcon} <span class="btn-title">Add Page</span></button>
                         <button id="pageActions" class="btn-notes-ext">${pageActionsIcon} <span class="btn-title">Page Actions</span></button>
                         <div id="page-actions-box-container" class="box-ui-layout">
@@ -71,9 +67,12 @@ const createNotesBody = function(){
                     <div class="pages-container">
                         
                     </div>
-                    <section id="notes-area" contenteditable="true">
+                    <div id="notes-area-parent">
+                        <div class="section-toggle-container"></div>
+                        <section id="notes-area" contenteditable="true">
                         Write your notes here!
-                    </section>
+                        </section>
+                    </div>
                 </div>
             </div>
         </div>

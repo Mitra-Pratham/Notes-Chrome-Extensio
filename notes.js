@@ -12,8 +12,8 @@ const init = function () {
             })
         }
         $('#notes-area').val(result.textAreaDefault);
-        $('#notes-area').height(result.boxHeight);
-        $('#notes-area, .pages-container').width(result.boxWidth);
+        $('#notes-area-parent').height(result.boxHeight);
+        $('#notes-area-parent, .pages-container').width(result.boxWidth);
         result.pagesArray === undefined ? saveCreatePage(pagesArray) : '';
         createPagesTabs(result.pagesArray === undefined ? pagesArray : result.pagesArray);
         createPageDeleteList(result.pagesArray === undefined ? pagesArray : result.pagesArray);
@@ -31,7 +31,7 @@ const init = function () {
 
     function createPageTabItems(items, active) {
         return items.map(el => {
-            return `<button id="${el.id}" class="btn-notes-ext btn-pages ${el.id === active ? 'active-area' : ''}" title="${el.name}">${el.name}</button>`
+            return `<button id="${el.id}" class="btn-notes-ext btn-pages ${el.id === active ? 'active-area' : ''}">${el.name}</button>`
         }).join('');
     }
 
@@ -92,7 +92,8 @@ const init = function () {
 
     function createSections() {
         let sectionsAreaArray = document.getElementsByClassName('sections-area');
-        let sectionsList = [];
+        // let sectionsList = [];
+        let sectionToggleContainer = [];
         for (let i = 0; i < sectionsAreaArray.length; i++) {
             let tempID = document.getElementsByClassName('sections-area')[i].id;
             let tempText = document.getElementsByClassName('sections-area')[i].innerText;
@@ -101,16 +102,22 @@ const init = function () {
                         <input class="${tempID} sections-checkbox" name="${tempID}" type="checkbox" ${tempDisplay === 'none' ? '' : 'checked'}>
                         <label for="${tempID}"> ${tempText.substring(0, 20)}...</label>
             </div>`
-            sectionsList.push(checkSection);
+            let sectionToggle = `<button class="btn-notes-ext btn-sections-toggle ${tempDisplay === 'none' ? 'btn-sections-toggle-hidden' : ''}" value="${tempID}">${tempText.substring(0, 20)}...</button>`
+            // sectionsList.push(checkSection);
+            sectionToggleContainer.push(sectionToggle);
         }
-        $('#show-sections-box-container').empty();
-        $('#show-sections-box-container').append(sectionsList);
-        showSectionsNotication();
+        //sections checkbox
+        // $('#show-sections-box-container').empty();
+        // $('#show-sections-box-container').append(sectionsList);
+        //left section toggle
+        $('.section-toggle-container').empty();
+        $('.section-toggle-container').append(sectionToggleContainer);
+        // showSectionsNotication();
     }
 
-    function showSectionsNotication() {
-        $('#show-sections-box-container .sections-checkbox:checked').length == $('#show-sections-box-container .sections-checkbox').length ? $('#show-sections-notification').hide() : $('#show-sections-notification').show();
-    }
+    // function showSectionsNotication() {
+    //     $('#show-sections-box-container .sections-checkbox:checked').length == $('#show-sections-box-container .sections-checkbox').length ? $('#show-sections-notification').hide() : $('#show-sections-notification').show();
+    // }
 
     //update text function
     function saveText(textAreaID) {
@@ -159,13 +166,13 @@ const init = function () {
                 }
             }
             text ? $('#notes-area').html(tempKey == 0 ? 'Write New Notes' : tempKey) : '';
-            height ? $('#notes-area').height(result.boxHeight) : '';
-            width ? $('#notes-area, .pages-container').width(result.boxWidth) : '';
+            height ? $('#notes-area-parent').height(result.boxHeight) : '';
+            width ? $('#notes-area-parent, .pages-container').width(result.boxWidth) : '';
             createSections();
         });
     }
 
-    eventListenersTrigger(saveText, saveHeight, saveWidth, getLocalStore, createSections, createPage, deletePage,saveCreatePage, createPagesTabs, createPageDeleteList,showSectionsNotication);
+    eventListenersTrigger(saveText, saveHeight, saveWidth, getLocalStore, createSections, createPage, deletePage,saveCreatePage, createPagesTabs, createPageDeleteList);
     // chrome.storage.local.clear();
 
 }

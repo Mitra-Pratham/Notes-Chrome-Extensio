@@ -1,4 +1,4 @@
-const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLocalStore, createSections, createPage, deletePage, saveCreatePage, createPagesTabs, createPageDeleteList, showSectionsNotication) {
+const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLocalStore, createSections, createPage, deletePage, saveCreatePage, createPagesTabs, createPageDeleteList) {
     //minimize box
     $('.min-box').on('click', function (e) {
         $(e.target).offsetParent('.notes-header').find('.notes-form').hide()
@@ -112,7 +112,7 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
         let textAreaID = $('.active-area').attr('id');
         let randomID = `sections-area-${Math.round(Math.random() * 90000000)}`
         let sectionsList = `
-     <div id="${randomID}" class="sections-area"><h2>New Section</h2></div>`
+        <div id="${randomID}" class="sections-area"><h2>New Section</h2></div>`
         $('#notes-area').append(sectionsList);
         saveText(textAreaID);
         createSections();
@@ -186,14 +186,14 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
     //top side height adjuster
     $('.notes-form-container-top').on('dragend', function (event) {
         let changedHeight = (window.innerHeight - event.clientY);
-        $('#notes-area').css('height', changedHeight);
+        $('#notes-area-parent').css('height', changedHeight);
         saveHeight(changedHeight);
     });
 
     //left side width adjuster
     $('.notes-form-container-left').on('dragend', function (event) {
         let changedWidth = (window.innerWidth - event.clientX);
-        $('#notes-area, .pages-container').css('width', changedWidth);
+        $('#notes-area-parent, .pages-container').css('width', changedWidth);
         saveWidth(changedWidth);
     });
 
@@ -288,15 +288,30 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
 
     });
 
-    $('#rtf-buttons').on('click', '.sections-checkbox', function (e) {
-        let tempID = $(this).attr('name');
+    //hide sections
+    // $('#rtf-buttons').on('click', '.sections-checkbox', function (e) {
+    //     let tempID = $(this).attr('name');
+    //     let textAreaID = $('.active-area').attr('id');
+    //     $(`#${tempID}`).toggle();
+    //     saveText(textAreaID);
+    //     $('.show-sections-box').toggleClass('btn-notes-ext-active');
+    //     $('#show-sections-box-container').toggle();
+    //     showSectionsNotication();
+    // })
+
+    //hide sections sidebar
+    $('#notes-main').on('click', '.btn-sections-toggle', function(e){
+        let tempID = $(this).attr('value');
         let textAreaID = $('.active-area').attr('id');
+        if($(this).hasClass('btn-sections-toggle-hidden')){
+            $(this).removeClass('btn-sections-toggle-hidden');
+        }
+        else{
+        $(this).addClass('btn-sections-toggle-hidden');
+        }
         $(`#${tempID}`).toggle();
         saveText(textAreaID);
-        $('.show-sections-box').toggleClass('btn-notes-ext-active');
-        $('#show-sections-box-container').toggle();
-        showSectionsNotication();
+        // showSectionsNotication();
     })
-
 
 }
