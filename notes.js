@@ -96,13 +96,14 @@ const init = function () {
         let sectionToggleContainer = [];
         for (let i = 0; i < sectionsAreaArray.length; i++) {
             let tempID = document.getElementsByClassName('sections-area')[i].id;
-            let tempText = document.getElementsByClassName('sections-area')[i].innerText;
+            // let tempText = document.getElementsByClassName('sections-area h2')[i].innerText;
+            let tempText = $('.sections-area h2').eq(i).text();
             let tempDisplay = document.getElementsByClassName('sections-area')[i].style.display;
-            let checkSection = `<div>
-                        <input class="${tempID} sections-checkbox" name="${tempID}" type="checkbox" ${tempDisplay === 'none' ? '' : 'checked'}>
-                        <label for="${tempID}"> ${tempText.substring(0, 20)}...</label>
-            </div>`
-            let sectionToggle = `<button class="btn-notes-ext btn-sections-toggle ${tempDisplay === 'none' ? 'btn-sections-toggle-hidden' : ''}" value="${tempID}">${tempText.substring(0, 20)}...</button>`
+            // let checkSection = `<div>
+            //             <input class="${tempID} sections-checkbox" name="${tempID}" type="checkbox" ${tempDisplay === 'none' ? '' : 'checked'}>
+            //             <label for="${tempID}"> ${tempText.substring(0, 20)+tempText.length > 20 ? '...': ''}</label>
+            // </div>`
+            let sectionToggle = `<button class="btn-notes-ext btn-sections-toggle ${tempDisplay === 'none' ? 'btn-sections-toggle-hidden' : ''}" value="${tempID}">${tempText.substring(0, 20)}${tempText.length > 20 ? '...': ''}<span class="btn-title">${tempText}</span></button>`
             // sectionsList.push(checkSection);
             sectionToggleContainer.push(sectionToggle);
         }
