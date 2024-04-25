@@ -91,7 +91,6 @@ const init = function () {
     }
 
     function createSections() {
-        let textAreaID = $('.active-area').attr('id');
         let sectionsAreaArray = document.getElementsByClassName('sections-area');
         let sectionsList = [];
         for (let i = 0; i < sectionsAreaArray.length; i++) {
@@ -106,16 +105,6 @@ const init = function () {
         }
         $('#show-sections-box-container').empty();
         $('#show-sections-box-container').append(sectionsList);
-        for (let i = 0; i < document.getElementsByClassName('sections-area').length; i++) {
-            let tempID = document.getElementsByClassName('sections-area')[i].id;
-            $(`.${tempID}`).on('click', function () {
-                $(`#${tempID}`).toggle();
-                saveText(textAreaID);
-                $('.show-sections-box').toggleClass('btn-notes-ext-active');
-                $('#show-sections-box-container').toggle();
-                showSectionsNotication();
-            });
-        }
         showSectionsNotication();
     }
 
@@ -176,7 +165,7 @@ const init = function () {
         });
     }
 
-    eventListenersTrigger(saveText, saveHeight, saveWidth, getLocalStore, createSections, createPage, deletePage,saveCreatePage, createPagesTabs, createPageDeleteList);
+    eventListenersTrigger(saveText, saveHeight, saveWidth, getLocalStore, createSections, createPage, deletePage,saveCreatePage, createPagesTabs, createPageDeleteList,showSectionsNotication);
     // chrome.storage.local.clear();
 
 }

@@ -34,31 +34,31 @@ const createNotesBody = function(){
                 <div id="notes-form-container" style="display:flex; flex-direction:column">
                     <div id="formatter-row">
                     <div id="rtf-buttons">
-                    <button class="btn-notes-ext headings-box" title="Headings">${headingIcon}</button>
+                    <button class="btn-notes-ext headings-box">${headingIcon} <span class="btn-title">Heading</span></button>
                         <div id="headings-box-container" class="box-ui-layout">
                             ${createButtons(headingsArray)}
                         </div>
-                        <button class="btn-notes-ext ol-box" title="Ordered List - Tab">${olIcon}</button>
-                        <button class="btn-notes-ext ul-box" title="Unordered List - Ctrl+]">${ulIcon}</button>
-                        <button class="btn-notes-ext colors-box" title="Font Colors">${colorsIcon}</button>
+                        <button class="btn-notes-ext ol-box">${olIcon} <span class="btn-title">Ordered List - Tab</span></button>
+                        <button class="btn-notes-ext ul-box"">${ulIcon} <span class="btn-title">Unordered List - Ctrl+]</span></button>
+                        <button class="btn-notes-ext colors-box">${colorsIcon} <span class="btn-title">Font Color</span></button>
                             <div id="colors-box-container" class="box-ui-layout">
                             ${createButtons(colorsArray, true)}
                             </div>
-                        <button class="btn-notes-ext background-box" title="Background Color">${bgIcon}</button>
+                        <button class="btn-notes-ext background-box">${bgIcon} <span class="btn-title">BG Color</span></button>
                             <div id="background-box-container" class="box-ui-layout">
                             ${createButtons(colorsArray, true)}
                             </div>
-                        <button class="btn-notes-ext add-sections-box" title="Add Sections">${addSectionsIcon}</button>
-                        <button class="btn-notes-ext show-sections-box" title="Show/Hide Sections">${showSectionsIcon}</button>
+                        <button class="btn-notes-ext add-sections-box">${addSectionsIcon} <span class="btn-title">Add Section</span></button>
+                        <button class="btn-notes-ext show-sections-box">${showSectionsIcon} <span class="btn-title">Show/Hide Section</span></button>
                         <div id="show-sections-notification">⬤</div>
                             <div id="show-sections-box-container" class="box-ui-layout">
                             </div>
-                            <button id="createPage" class="btn-notes-ext" title="Create Page">${createPagesIcon}</button>
-                        <button id="pageActions" class="btn-notes-ext" title="Page Actions">${pageActionsIcon}</button>
+                            <button id="createPage" class="btn-notes-ext">${createPagesIcon} <span class="btn-title">Add Page</span></button>
+                        <button id="pageActions" class="btn-notes-ext">${pageActionsIcon} <span class="btn-title">Page Actions</span></button>
                         <div id="page-actions-box-container" class="box-ui-layout">
                         </div>
-                        <button id="importPage" class="btn-notes-ext" title="Import Page">${importIcon}</button>
-                        <button class="btn-notes-ext shortcuts-box" title="Shortcuts">${shortcutIcon}</button>
+                        <button id="importPage" class="btn-notes-ext">${importIcon} <span class="btn-title">Import Page</span></button>
+                        <button class="btn-notes-ext shortcuts-box">${shortcutIcon} <span class="btn-title">Shortcuts</span></button>
                         <div id="shortcuts-box-container" class="box-ui-layout">
                         ${createShortcuts()}
                         </div>

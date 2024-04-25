@@ -1,4 +1,4 @@
-const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLocalStore, createSections, createPage, deletePage, saveCreatePage, createPagesTabs, createPageDeleteList) {
+const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLocalStore, createSections, createPage, deletePage, saveCreatePage, createPagesTabs, createPageDeleteList, showSectionsNotication) {
     //minimize box
     $('.min-box').on('click', function (e) {
         $(e.target).offsetParent('.notes-header').find('.notes-form').hide()
@@ -208,20 +208,20 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
     $('.pages-container').on('dblclick', '.btn-pages', function (e) {
         let tempId = $(this).attr('id');
         let newName = prompt('Rename the page');
-        if(newName !== null){
+        if (newName !== null) {
             chrome.storage.local.get(['pagesArray']).then(result => {
                 let newArray = result.pagesArray.map((item) => {
-                    if(item.id == tempId) {
+                    if (item.id == tempId) {
                         item.name = newName;
                         return item;
-                }
-                else{
-                    return item;
-                }
-            })
+                    }
+                    else {
+                        return item;
+                    }
+                })
                 saveCreatePage(newArray);
                 createPagesTabs(newArray);
-                createPageDeleteList(newArray,'update');
+                createPageDeleteList(newArray, 'update');
             })
         }
 
@@ -287,4 +287,16 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
         })
 
     });
+
+    $('#rtf-buttons').on('click', '.sections-checkbox', function (e) {
+        let tempID = $(this).attr('name');
+        let textAreaID = $('.active-area').attr('id');
+        $(`#${tempID}`).toggle();
+        saveText(textAreaID);
+        $('.show-sections-box').toggleClass('btn-notes-ext-active');
+        $('#show-sections-box-container').toggle();
+        showSectionsNotication();
+    })
+
+
 }
