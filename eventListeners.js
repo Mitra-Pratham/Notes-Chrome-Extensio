@@ -101,19 +101,19 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
     });
 
     //show sections box toggle
-    $('.show-sections-box').on('click', function () {
-        $('.show-sections-box').toggleClass('btn-notes-ext-active');
-        $('#show-sections-box-container').toggle();
-    });
-
+    // $('.show-sections-box').on('click', function () {
+    //     $('.show-sections-box').toggleClass('btn-notes-ext-active');
+    //     $('#show-sections-box-container').toggle();
+    // });
 
     //adding sections to notes area
-    $('.add-sections-box').on('click', function (e) {
+    $('#notes-main').on('click', '.add-sections-box', function (e) {
+        let val = $(this).attr('value');
         let textAreaID = $('.active-area').attr('id');
         let randomID = `sections-area-${Math.round(Math.random() * 90000000)}`
         let sectionsList = `
         <div id="${randomID}" class="sections-area"><h2>New Section</h2></div>`
-        $('#notes-area').append(sectionsList);
+        val === 'up' ? $('#notes-area').prepend(sectionsList) : $('#notes-area').append(sectionsList);
         saveText(textAreaID);
         createSections();
     });
@@ -131,7 +131,7 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
         createSections();
     });
 
-    //keypress listener here
+    //keypress listener here for notes area
     $('#notes-main').on('keydown', '#notes-area', function (e) {
         // shortcut tab
         let sel = window.getSelection();
@@ -150,6 +150,7 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
                     sel.addRange(range);
                     break;
                 }
+
 
             case 28:
                 if (e.ctrlKey) {
@@ -205,6 +206,7 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
         getLocalStore('text', 'height', 'width', tempId);
     });
 
+    //rename the page
     $('.pages-container').on('dblclick', '.btn-pages', function (e) {
         let tempId = $(this).attr('id');
         let newName = prompt('Rename the page');
@@ -300,18 +302,80 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
     // })
 
     //hide sections sidebar
-    $('#notes-main').on('click', '.btn-sections-toggle', function(e){
-        let tempID = $(this).attr('value');
+    $('#notes-main').on('click', '.hide-section', function (e) {
+        let tempID = $(this).parents('.btn-sections-toggle').attr('value');
         let textAreaID = $('.active-area').attr('id');
-        if($(this).hasClass('btn-sections-toggle-hidden')){
-            $(this).removeClass('btn-sections-toggle-hidden');
+        if ($(this).hasClass('section-hidden')) {
+            $(this).removeClass('section-hidden');
+            $(this).html(`${eyeIcon}`);
+            $(`#${tempID}`).show();
         }
-        else{
-        $(this).addClass('btn-sections-toggle-hidden');
+        else {
+            $(this).addClass('section-hidden');
+            $(this).html(`${eyeSlashIcon}`);
+            $(`#${tempID}`).hide();
         }
-        $(`#${tempID}`).toggle();
+
         saveText(textAreaID);
         // showSectionsNotication();
-    })
+    });
+
+    //right click menu for sections
+    $('#notes-main').on('contextmenu', '.btn-sections-toggle', function (e) {
+        e.preventDefault();
+        let tempEl = $(this).find('.edit-sections-container'); //find goes multiple levels down the tree vs children which is one level down only
+        let tempElOpen = tempEl.hasClass('section-open');
+        //hiding previous edit sections containers
+        $('.section-open').hide();
+        $('.section-open').removeClass('section-open');
+        //showing current edit sections container
+        if (!tempElOpen) {
+            tempEl.addClass('section-open');
+            tempEl.show();
+        }
+    });
+
+    //deleting sections to notes area
+    $('#notes-main').on('click', '.delete-section', function (e) {
+        let tempID = $(this).parents('.btn-sections-toggle').attr('value');
+        let textAreaID = $('.active-area').attr('id');
+        $(`#${tempID}`).remove();
+        //hiding edit sections container
+        $('.section-open').hide();
+        $('.section-open').removeClass('section-open');
+        //saving the text area and creating sections again
+        saveText(textAreaID);
+        createSections();
+    });
+
+    //moving sections to notes area
+    $('#notes-main').on('click', '.move-section', function (e) {
+        let tempLength = $('.btn-sections-toggle').length;
+        let tempID = $(this).parents('.btn-sections-toggle').attr('value');
+        let tempIndex = Number($(this).parents('.btn-sections-toggle').attr('index'));
+        let tempMoveVal = $(this).attr('value');
+        let textAreaID = $('.active-area').attr('id');
+        let newPosition = tempMoveVal === 'up' ? tempIndex - 1 : tempIndex + 1;
+        if (newPosition < tempLength && newPosition >= 0) {
+            let tempHolder = $(`#${tempID}`)[0].outerHTML;
+            $(`#${tempID}`).remove();
+            if (newPosition != 0) {
+                $(`#notes-area > div:nth-child(${newPosition})`).after(tempHolder);
+            }
+            else if (newPosition === 0) {
+                $(`#notes-area`).prepend(tempHolder);
+            }
+            // else if (newPosition >= tempLength) {
+            //     $(`#notes-area`).append(tempHolder);
+            // }
+            //hiding edit sections container
+            $('.section-open').hide();
+            $('.section-open').removeClass('section-open');
+            //saving the text area and creating sections again
+            saveText(textAreaID);
+            createSections();
+        }
+
+    });
 
 }

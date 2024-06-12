@@ -48,7 +48,6 @@ const createNotesBody = function(){
                             <div id="background-box-container" class="box-ui-layout">
                             ${createButtons(colorsArray, true)}
                             </div>
-                        <button class="btn-notes-ext add-sections-box">${addSectionsIcon} <span class="btn-title">Add Section</span></button>
                             <button id="createPage" class="btn-notes-ext">${createPagesIcon} <span class="btn-title">Add Page</span></button>
                         <button id="pageActions" class="btn-notes-ext">${pageActionsIcon} <span class="btn-title">Page Actions</span></button>
                         <div id="page-actions-box-container" class="box-ui-layout">
