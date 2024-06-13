@@ -162,7 +162,7 @@
 
 #notes-area-parent {
   display: grid;
-  grid-template-columns: 15% 85%;
+  grid-template-columns: 16% 84%;
   gap: 6px
 }
 

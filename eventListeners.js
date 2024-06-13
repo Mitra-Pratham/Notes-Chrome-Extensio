@@ -301,6 +301,13 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
     //     showSectionsNotication();
     // })
 
+    //scroll to section
+    $('#notes-main').on('click', '.btn-sections-toggle', function (e) {
+        let tempID = $(this).attr('value');
+        jQuery(`#${tempID}`)[0].scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+        // showSectionsNotication();
+    });
+
     //hide sections sidebar
     $('#notes-main').on('click', '.hide-section', function (e) {
         let tempID = $(this).parents('.btn-sections-toggle').attr('value');
@@ -365,9 +372,6 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
             else if (newPosition === 0) {
                 $(`#notes-area`).prepend(tempHolder);
             }
-            // else if (newPosition >= tempLength) {
-            //     $(`#notes-area`).append(tempHolder);
-            // }
             //hiding edit sections container
             $('.section-open').hide();
             $('.section-open').removeClass('section-open');
@@ -377,5 +381,72 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
         }
 
     });
+
+    // let $dragging = null;
+    // let dragID = null;
+    // $('#notes-main').on('mousedown', '.btn-sections-toggle', function (e) {
+    //     e.preventDefault();
+    //     dragID = $(this).attr('value');
+    //     $(this).attr('unselectable', 'on').addClass('draggable');
+    //     let el_w = $(this).outerWidth(),
+    //         el_h = $(this).outerHeight();
+    //     $('body').on("mousemove", function (e) {
+    //         if ($dragging) {
+    //             $dragging.offset({
+    //                 top: e.pageY - el_h / 2,
+    //                 left: e.pageX - el_w / 2
+    //             });
+    //         }
+    //     });
+    //     $('.btn-title').hide();
+    //     $dragging = $(e.target);
+    // }).on('mouseup', '.draggable', function (e) {
+    //     e.preventDefault();
+    //     let dropData = getHoverElement(e.pageX, e.pageY);
+    //     let newPosition = Number(dropData.index);
+    //     let textAreaID = $('.active-area').attr('id');
+    //         let tempHTML = $(`#${dragID}`)[0].outerHTML;
+    //         $(`#${dragID}`).remove();
+    //         if (newPosition != 0) {
+    //             $(`#notes-area > div:nth-child(${newPosition})`).after(tempHTML);
+    //         }
+    //         else if (newPosition === 0) {
+    //             $(`#notes-area`).prepend(tempHTML);
+    //         }
+    //         // else if (newPosition >= tempLength) {
+    //         //     $(`#notes-area`).append(tempHolder);
+    //         // }
+    //         //hiding edit sections container
+    //         $('.section-open').hide();
+    //         $('.section-open').removeClass('section-open');
+    //         //saving the text area and creating sections again
+    //         saveText(textAreaID);
+    //         createSections();
+    //     $('.draggable').attr('unselectable', 'off').removeClass('draggable');
+    //     $dragging = null;
+    // });
+
+
+    // function getHoverElement(x, y) {
+    //     element = "none";
+    //     $('.btn-sections-toggle').each(function (i) {
+    //         el = this;
+    //         el_left = $(el).offset().left;
+    //         el_right = $(el).offset().left + $(el).width();
+    //         el_top = $(el).offset().top;
+    //         el_bottom = $(el).offset().top + $(el).height();
+
+    //         if (x >= el_left && x <= el_right) {
+    //             if (y >= el_top && y <= el_bottom) {
+    //                 element = {
+    //                     index: $(el).attr('index'),
+    //                     value: $(el).attr('value')
+    //                 }
+    //                 return false;
+    //             }
+    //         }
+    //     });
+    //     return element;
+    // }
 
 }
