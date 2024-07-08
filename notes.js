@@ -16,7 +16,6 @@ const init = function () {
         $('#notes-area-parent, .pages-container').width(result.boxWidth);
         result.pagesArray === undefined ? saveCreatePage(pagesArray) : '';
         createPagesTabs(result.pagesArray === undefined ? pagesArray : result.pagesArray);
-        createPageDeleteList(result.pagesArray === undefined ? pagesArray : result.pagesArray);
 
         // $('#height-slider').val(result.boxHeight);
         // $('#width-slider').val(result.boxWidth);
@@ -25,39 +24,35 @@ const init = function () {
     function createPagesTabs(items) {
         let activeID = $('.active-area').attr('id');
         let tempPageItems = activeID === undefined ? createPageTabItems(items, 'textAreaDefault') : createPageTabItems(items, activeID);
-        $('.pages-container').empty();
-        $('.pages-container').append(tempPageItems);
+        $('#pages-tab-container').empty();
+        $('#pages-tab-container').append(tempPageItems);
     }
 
     function createPageTabItems(items, active) {
         return items.map(el => {
-            return `<button id="${el.id}" class="btn-notes-ext btn-pages ${el.id === active ? 'active-area' : ''}">${el.name}</button>`
+            return (`
+                    <div class="edit-pages-parent-container">
+                    <button id="${el.id}" class="btn-notes-ext btn-pages ${el.id === active ? 'active-area' : ''}">${el.name}</button>
+                    <div class="btn-pages-toggle-icons">
+                        <div class="edit-pages-container box-ui-layout">
+                        <button value="${el.id}" class="btn-notes-ext rename-page">
+                                    ${renameIcon} Rename
+                                </button>
+                                <button value="${el.id}" class="btn-notes-ext export-page">
+                                    ${exportIcon} Export
+                                </button>
+                                <button value="${el.id}" class="btn-notes-ext delete-page">
+                                    ${deleteIcon} Delete
+                                </button>
+                            </div>
+                    </div>
+                    </div>
+                `)
         }).join('');
     }
 
-    function createPageDeleteList(array, text) {
-        let tempArray = array.map(el => {
-            return `
-                    <div class="page-actions-item">${el.name}
-                        <div class="page-actions-sub">
-                            <button value="${el.id}" class="btn-notes-ext export-page">${exportIcon}</button>
-                            ${el.id !== 'textAreaDefault' ? `<button value="${el.id}" class="btn-notes-ext delete-page">${deleteIcon}</button>` : ''}
-                            
-                        </div>
-                    </div>`;
-        }).join('');
-        $('#page-actions-box-container').empty();
-        $('#page-actions-box-container').append(tempArray);
-        if (text !== 'update') {
-            //setting page 1 as default when deletion happens
-            $('.active-area').removeClass('active-area');
-            $(`#textAreaDefault`).addClass('active-area');
-            getLocalStore('text', 'height', 'width', 'textAreaDefault');
-        }
-    }
-
-    function createPage(text) {
-        let tempName = prompt('Enter page name', `Page ${$('.btn-pages').length + 1}`);
+    function createPage(text,fileName) {
+        let tempName = fileName ? fileName : prompt('Enter page name', `Page ${$('.btn-pages').length + 1}`);
         if (tempName != null) {
             tempID = `textArea${Math.round(Math.random() * 90000000)}`
             let randomObj = {
@@ -68,7 +63,6 @@ const init = function () {
                 let newArray = result.pagesArray === undefined ? [...pagesArray, randomObj] : [...result.pagesArray, randomObj];
                 saveCreatePage(newArray);
                 createPagesTabs(newArray);
-                createPageDeleteList(newArray);
                 chrome.storage.local.set({ [tempID]: text ? text : 'Write notes here' }).then(() => {
                     console.log("Value is set");
                 });
@@ -79,12 +73,17 @@ const init = function () {
 
     function deletePage(id) {
         let input = confirm('Are you sure you want to delete this page?');
+        let activeID = $('.active-area').attr('id');
         if (input === true) {
+            if(activeID===id){
+                $('.active-area').removeClass('active-area');
+                $(`#textAreaDefault`).addClass('active-area');
+                getLocalStore('text', 'height', 'width', 'textAreaDefault');
+            }
             chrome.storage.local.get(["pagesArray"]).then((result) => {
                 let newArray = result.pagesArray.filter(item => item.id !== id);
                 saveCreatePage(newArray);
                 createPagesTabs(newArray);
-                createPageDeleteList(newArray);
             });
             chrome.storage.local.remove([`${id}`]);
         }
@@ -98,7 +97,7 @@ const init = function () {
             let tempID = document.getElementsByClassName('sections-area')[i].id;
             let tempText = $('.sections-area h2').eq(i).text();
             let tempDisplay = document.getElementsByClassName('sections-area')[i].style.display;
-            let sectionToggle = `<div class="btn-notes-ext btn-sections-toggle" value="${tempID}" index=${i}>${tempText.substring(0, 15)}${tempText.length > 15 ? '...' : ''}<span class="btn-title">${tempText}</span>
+            let sectionToggle = `<div class="btn-notes-ext btn-sections-toggle" tabindex="0" value="${tempID}" index=${i}>${tempText.substring(0, 15)}${tempText.length > 15 ? '...' : ''}<span class="btn-title">${tempText}</span>
                 <div class="btn-sections-toggle-icons">
                     <button class="btn-notes-ext hide-section ${tempDisplay === 'none' ? 'section-hidden' : ''}">
                         ${tempDisplay === 'none' ? eyeSlashIcon : eyeIcon}
@@ -190,7 +189,7 @@ const init = function () {
         });
     }
 
-    eventListenersTrigger(saveText, saveHeight, saveWidth, getLocalStore, createSections, createPage, deletePage, saveCreatePage, createPagesTabs, createPageDeleteList);
+    eventListenersTrigger(saveText, saveHeight, saveWidth, getLocalStore, createSections, createPage, deletePage, saveCreatePage, createPagesTabs);
     // chrome.storage.local.clear();
 
 }

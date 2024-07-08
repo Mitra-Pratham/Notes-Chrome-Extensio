@@ -327,12 +327,6 @@
   width:180px;
 }
 
-#page-actions-box-container{
-  top: 30px;
-  left: 140px;
-  width:180px;
-}
-
 #show-sections-notification{
   position: absolute;
   display: none;
@@ -348,9 +342,12 @@
 
 /* edit section container */
 .section-open{
+  position: absolute;
   display: grid;
   align-content: start;
   gap: .25rem;
+  min-width: 120px;
+  max-width: 200px;
 }
 
 .small-paras{
@@ -387,6 +384,10 @@ textarea:focus{
   display: grid;
   align-content: start;
   gap: .25rem;
+  padding: .3em;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  align-self: self-start;
 }
 
 .sections-area{
@@ -397,10 +398,23 @@ textarea:focus{
 }
 
 .pages-container{
-  margin: 0 0 1em 0;
+  margin: 0 0 .5em 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 0.5rem;
+  padding: .5em;
+  border: 1px solid #eee;
+  border-radius: 6px;
+}
+
+#pages-tab-container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.edit-pages-parent-container{
+  position: relative;
 }
 
 .active-area{

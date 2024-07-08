@@ -23,7 +23,7 @@ const createNotesBody = function(){
             return `
             <div class="notes-container">
             <div class="notes-header">
-                <div id="notes-title" for="notes-area">Notes</div>
+                <div id="notes-title" for="notes-area">Notes v0.91</div>
                 <div class="notes-header-buttons">
                     <button class="btn-notes-ext min-box">${minimizeIcon} <span class="btn-title">Minimize</span></button>
                     <button class="btn-notes-ext max-box">${maximizeIcon} <span class="btn-title">Maximize</span></button>
@@ -48,11 +48,6 @@ const createNotesBody = function(){
                             <div id="background-box-container" class="box-ui-layout">
                             ${createButtons(colorsArray, true)}
                             </div>
-                            <button id="createPage" class="btn-notes-ext">${createPagesIcon} <span class="btn-title">Add Page</span></button>
-                        <button id="pageActions" class="btn-notes-ext">${pageActionsIcon} <span class="btn-title">Page Actions</span></button>
-                        <div id="page-actions-box-container" class="box-ui-layout">
-                        </div>
-                        <button id="importPage" class="btn-notes-ext">${importIcon} <span class="btn-title">Import Page</span></button>
                         <button class="btn-notes-ext shortcuts-box">${shortcutIcon} <span class="btn-title">Shortcuts</span></button>
                         <div id="shortcuts-box-container" class="box-ui-layout">
                         ${createShortcuts()}
@@ -64,7 +59,9 @@ const createNotesBody = function(){
                     <div draggable="true" class="notes-form-container-top"></div>
                     <div draggable="true" class="notes-form-container-left"></div>
                     <div class="pages-container">
-                        
+                    <button id="createPage" class="btn-notes-ext">${createPagesIcon} <span class="btn-title">Add Page</span></button>
+                        <button id="importPage" class="btn-notes-ext">${importIcon} <span class="btn-title">Import Page</span></button>
+                        <div id="pages-tab-container"></div>
                     </div>
                     <div id="notes-area-parent">
                         <div class="section-toggle-container"></div>

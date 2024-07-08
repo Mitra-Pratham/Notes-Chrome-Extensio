@@ -1,4 +1,4 @@
-const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLocalStore, createSections, createPage, deletePage, saveCreatePage, createPagesTabs, createPageDeleteList) {
+const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLocalStore, createSections, createPage, deletePage, saveCreatePage, createPagesTabs) {
     //minimize box
     $('.min-box').on('click', function (e) {
         $(e.target).offsetParent('.notes-header').find('.notes-form').hide()
@@ -20,12 +20,6 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
     $('.headings-box').click(function () {
         $('.headings-box').toggleClass('btn-notes-ext-active');
         $('#headings-box-container').toggle();
-    });
-
-    //delete box toggle
-    $('#pageActions').click(function () {
-        $('pageActions').toggleClass('btn-notes-ext-active');
-        $('#page-actions-box-container').toggle();
     });
 
     //adding headings to notes area
@@ -199,17 +193,50 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
     });
 
     //toggle through pages
-    $('.pages-container').on('click', '.btn-pages', function (e) {
+    $('#pages-tab-container').on('click', '.btn-pages', function (e) {
         let tempId = $(this).attr('id');
         $('.active-area').removeClass('active-area');
         $(`#${tempId}`).addClass('active-area');
         getLocalStore('text', 'height', 'width', tempId);
     });
 
+     //right click menu for pages
+     $('#pages-tab-container').on('contextmenu', '.btn-pages', function (e) {
+        e.preventDefault();
+        let tempEl = $(this).next('.btn-pages-toggle-icons').find('.edit-pages-container'); //find goes multiple levels down the tree vs children which is one level down only
+        console.log(tempEl);
+        let tempElOpen = tempEl.hasClass('section-open');
+        //hiding previous edit pages containers
+        $('.section-open').hide();
+        $('.section-open').removeClass('section-open');
+        //showing current edit pages container
+        if (!tempElOpen) {
+            tempEl.addClass('section-open');
+            tempEl.show();
+        }
+    });
+
+    //create page function
+    $('.pages-container').on('click', '#createPage', function (e) {
+        createPage();
+    });
+
+    //import page function
+    $('.pages-container').on('click', '#importPage', async function () {
+        let fileHandle;
+        [fileHandle] = await window.showOpenFilePicker();
+        const file = await fileHandle.getFile();
+        const fileHandleName = await fileHandle.name;
+        const fileName = fileHandleName.substr(0, fileHandleName.lastIndexOf('.'));
+        const contents = await file.text();
+        createPage(contents,fileName);
+    });
+
     //rename the page
-    $('.pages-container').on('dblclick', '.btn-pages', function (e) {
-        let tempId = $(this).attr('id');
-        let newName = prompt('Rename the page');
+    $('#pages-tab-container').on('click', '.rename-page', function (e) {
+        let tempId = $(this).attr('value');
+        let tempName = $(this).parents('.btn-pages-toggle-icons').prevAll('.btn-pages').text();
+        let newName = prompt('Rename the page', tempName);
         if (newName !== null) {
             chrome.storage.local.get(['pagesArray']).then(result => {
                 let newArray = result.pagesArray.map((item) => {
@@ -223,36 +250,22 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
                 })
                 saveCreatePage(newArray);
                 createPagesTabs(newArray);
-                createPageDeleteList(newArray, 'update');
             })
         }
 
     });
 
-    //create page function
-    $('#rtf-buttons').on('click', '#createPage', function (e) {
-        createPage();
-    });
-
     //delete page function
-    $('#page-actions-box-container').on('click', '.delete-page', function (e) {
+    $('#pages-tab-container').on('click', '.delete-page', function (e) {
         deletePage($(this).attr('value'));
-        $('#page-actions-box-container').hide();
-
+        $('.section-open').hide();
+        $('.section-open').removeClass('section-open');
     });
 
-    //import page function
-    $('#rtf-buttons').on('click', '#importPage', async function () {
-        let fileHandle;
-        [fileHandle] = await window.showOpenFilePicker();
-        const file = await fileHandle.getFile();
-        const contents = await file.text();
-        createPage(contents);
-    });
-
-    async function getNewFileHandle() {
+    //get filehandle for export
+    async function getNewFileHandle(fileName) {
         const options = {
-            suggestedName: 'New Page.html',
+            suggestedName: fileName,
             startIn: 'downloads',
             types: [
                 {
@@ -276,15 +289,18 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
         await writable.close();
     }
 
-    $('#page-actions-box-container').on('click', '.export-page', function (e) {
+    //export pages functionality
+    $('#pages-tab-container').on('click', '.export-page', function (e) {
         let fileID = ($(this).attr('value'));
+        let fileName = $(this).parents('.btn-pages-toggle-icons').prevAll('.btn-pages').text();
         let fileContents;
         chrome.storage.local.get([`${fileID}`]).then(result => {
             fileContents = Object.values(result)[0];
         }).then(() => {
-            getNewFileHandle().then((result) => {
+            getNewFileHandle(fileName).then((result) => {
                 writeFile(result, fileContents);
-                $('#page-actions-box-container').hide();
+                $('.section-open').hide();
+                $('.section-open').removeClass('section-open');
             })
         })
 
