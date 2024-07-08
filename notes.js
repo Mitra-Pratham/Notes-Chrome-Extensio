@@ -41,9 +41,8 @@ const init = function () {
                                 <button value="${el.id}" class="btn-notes-ext export-page">
                                     ${exportIcon} Export
                                 </button>
-                                <button value="${el.id}" class="btn-notes-ext delete-page">
-                                    ${deleteIcon} Delete
-                                </button>
+                                ${el.id === 'textAreaDefault' ? '' : 
+                                    `<button value="${el.id}" class="btn-notes-ext delete-page">${deleteIcon} Delete</button>`}
                             </div>
                     </div>
                     </div>
