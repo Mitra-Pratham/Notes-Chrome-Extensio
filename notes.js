@@ -1,6 +1,3 @@
-let pagesTempArray = [];
-
-
 const init = function () {
     createNotesBody();
     //get locally stored items
@@ -16,6 +13,7 @@ const init = function () {
         $('#notes-area-parent, .pages-container').width(result.boxWidth);
         result.pagesArray === undefined ? saveCreatePage(pagesArray) : '';
         createPagesTabs(result.pagesArray === undefined ? pagesArray : result.pagesArray);
+        createSections();
 
         // $('#height-slider').val(result.boxHeight);
         // $('#width-slider').val(result.boxWidth);
@@ -170,8 +168,9 @@ const init = function () {
     }
 
     //get text, height and width from the local storage
-    function getLocalStore(text, height, width, textAreaID) {
-        chrome.storage.local.get([`${textAreaID}`, "boxHeight", "boxWidth"]).then((result) => {
+    function getLocalStore(text, height, width, textAreaID, pagesArray) {
+        //text and textAreaID are linked
+        chrome.storage.local.get([`${textAreaID}`, "boxHeight", "boxWidth", "pagesArray"]).then((result) => {
             let tempKey;
             for (const [key, value] of Object.entries(result)) {
                 if (key === textAreaID) {
@@ -181,10 +180,10 @@ const init = function () {
                     tempKey = 0;
                 }
             }
-            text ? $('#notes-area').html(tempKey == 0 ? 'Write New Notes' : tempKey) : '';
+            text ? ($('#notes-area').html(tempKey == 0 ? 'Write New Notes' : tempKey), createSections()) : '';
             height ? $('#notes-area-parent').height(result.boxHeight) : '';
             width ? $('#notes-area-parent, .pages-container').width(result.boxWidth) : '';
-            createSections();
+            pagesArray ? createPagesTabs(result.pagesArray === undefined ? pagesArray : result.pagesArray) : '';
         });
     }
 

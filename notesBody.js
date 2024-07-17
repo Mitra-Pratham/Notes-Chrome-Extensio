@@ -18,12 +18,12 @@ const createNotesBody = function(){
         }
     }
     
-    const notesMain = `<div id="notes-main" style="z-index:9999"></div>`
+    const notesMain = `<div id="notes-main" class="notes-main-draggable" style="z-index:9999" draggable="true"></div>`
         function notesTab() {
             return `
             <div class="notes-container">
             <div class="notes-header">
-                <div id="notes-title" for="notes-area">Notes v0.91</div>
+                <div id="notes-title" for="notes-area">Notes v0.92</div>
                 <div class="notes-header-buttons">
                     <button class="btn-notes-ext min-box">${minimizeIcon} <span class="btn-title">Minimize</span></button>
                     <button class="btn-notes-ext max-box">${maximizeIcon} <span class="btn-title">Maximize</span></button>
@@ -31,7 +31,7 @@ const createNotesBody = function(){
                 </div>
             </div>
             <div class="notes-form" style="display:none">
-                <div id="notes-form-container" style="display:flex; flex-direction:column">
+                <div id="notes-form-container">
                     <div id="formatter-row">
                     <div id="rtf-buttons">
                     <button class="btn-notes-ext headings-box">${headingIcon} <span class="btn-title">Heading</span></button>

@@ -1,14 +1,13 @@
 const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLocalStore, createSections, createPage, deletePage, saveCreatePage, createPagesTabs) {
     //minimize box
     $('.min-box').on('click', function (e) {
-        $(e.target).offsetParent('.notes-header').find('.notes-form').hide()
+        $(e.target).offsetParent('.notes-header').find('.notes-form').hide();
     });
 
     //maximize box
     $('.max-box').on('click', function (e) {
         $(e.target).offsetParent('.notes-header').find('.notes-form').show();
-        getLocalStore('text', 'height', 'width', 'textAreaDefault');
-        // createSections();
+        getLocalStore('text', 'height', 'width', 'textAreaDefault', 'pagesArray');
     });
 
     //close box
@@ -115,7 +114,7 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
     //update on focus
     $('#notes-area').on('focus', function () {
         let textAreaID = $('.active-area').attr('id');
-        getLocalStore('text', 'height', 'width', `${textAreaID}`);
+        getLocalStore('text', 'height', 'width', `${textAreaID}`, 'pagesArray');
     });
 
     // save on focus out
@@ -178,6 +177,14 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
 
     });
 
+    //reposition the notes app
+    $('#notes-main').on('dragend', function(event){
+        let bottomAdj = event.clientY > window.innerHeight ? event.clientY - window.innerHeight : window.innerHeight - event.clientY;
+        let rightAdj = event.clientX > window.innerWidth ? event.clientX - window.innerWidth : window.innerWidth - event.clientX;
+        $('#notes-main').css('bottom', `${bottomAdj}px`);
+        $('#notes-main').css('right', `${rightAdj}px`);
+    })
+
     //top side height adjuster
     $('.notes-form-container-top').on('dragend', function (event) {
         let changedHeight = (window.innerHeight - event.clientY);
@@ -200,8 +207,8 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
         getLocalStore('text', 'height', 'width', tempId);
     });
 
-     //right click menu for pages
-     $('#pages-tab-container').on('contextmenu', '.btn-pages', function (e) {
+    //right click menu for pages
+    $('#pages-tab-container').on('contextmenu', '.btn-pages', function (e) {
         e.preventDefault();
         let tempEl = $(this).next('.btn-pages-toggle-icons').find('.edit-pages-container'); //find goes multiple levels down the tree vs children which is one level down only
         console.log(tempEl);
@@ -229,7 +236,7 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
         const fileHandleName = await fileHandle.name;
         const fileName = fileHandleName.substr(0, fileHandleName.lastIndexOf('.'));
         const contents = await file.text();
-        createPage(contents,fileName);
+        createPage(contents, fileName);
     });
 
     //rename the page
