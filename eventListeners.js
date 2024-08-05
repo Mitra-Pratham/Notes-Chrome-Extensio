@@ -177,7 +177,7 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
 
     });
 
-    //reposition the notes app
+    //reposition/drag the notes app
     $('#notes-main').on('dragend', function(event){
         let bottomAdj = event.clientY > window.innerHeight ? event.clientY - window.innerHeight : window.innerHeight - event.clientY;
         let rightAdj = event.clientX > window.innerWidth ? event.clientX - window.innerWidth : window.innerWidth - event.clientX;
