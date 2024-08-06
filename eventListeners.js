@@ -178,11 +178,16 @@ const eventListenersTrigger = function (saveText, saveHeight, saveWidth, getLoca
     });
 
     //reposition/drag the notes app
-    $('#notes-main').on('dragend', function(event){
+    $('#notes-main').on('dragend', '.notes-main-draggable',function(event){
+        $('.notes-main-draggable').removeClass(`notes-header-drag`);
         let bottomAdj = event.clientY > window.innerHeight ? event.clientY - window.innerHeight : window.innerHeight - event.clientY;
         let rightAdj = event.clientX > window.innerWidth ? event.clientX - window.innerWidth : window.innerWidth - event.clientX;
         $('#notes-main').css('bottom', `${bottomAdj}px`);
         $('#notes-main').css('right', `${rightAdj}px`);
+    });
+
+    $('#notes-main').on('dragstart', '.notes-main-draggable',function(event){ 
+        $('.notes-main-draggable').addClass(`notes-header-drag`);
     })
 
     //top side height adjuster
